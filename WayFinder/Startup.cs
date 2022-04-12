@@ -37,6 +37,8 @@ namespace WayFinder
             services.AddScoped<AccountService>();
             services.AddScoped<TripsRepository>();
             services.AddScoped<TripsService>();
+            services.AddScoped<ReservationsRepository>();
+            services.AddScoped<ReservationsService>();
         }
 
         private void ConfigureCors(IServiceCollection services)
