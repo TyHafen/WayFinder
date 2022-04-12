@@ -16,11 +16,11 @@ namespace WayFinder.Controllers
             _rs = rs;
         }
         [HttpGet]
-        public ActionResult<List<ReservationsController>> GetAll()
+        public ActionResult<List<ReservationsController>> GetAllByTripId(int id)
         {
             try
             {
-                List<Reservation> reservations = _rs.GetAll();
+                List<Reservation> reservations = _rs.GetAllByTripId(id);
                 return Ok(reservations);
             }
             catch (System.Exception e)
@@ -61,9 +61,39 @@ namespace WayFinder.Controllers
 
 
         }
+        [HttpPut("{id}")]
+        public ActionResult<Reservation> Edit([FromBody] Reservation reservationData, int id)
+        {
+            try
+            {
+                reservationData.Id = id;
+                Reservation reservation = _rs.Edit(reservationData);
+                return Ok(reservation);
+            }
+            catch (System.Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
+        }
+        [HttpGet("{id}")]
+        public ActionResult<Trip> GetById(int id)
+        {
+            try
+            {
+                Reservation reservation = _rs.GetById(id);
+                return Ok(reservation);
+            }
+            catch (System.Exception e)
+            {
+
+                return BadRequest(e.Message);
+
+
+            }
 
 
 
-
+        }
     }
 }

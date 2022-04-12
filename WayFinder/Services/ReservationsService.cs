@@ -14,9 +14,9 @@ namespace WayFinder.Services
             _tr = tr;
         }
 
-        internal List<Reservation> GetAll()
+        internal List<Reservation> GetAllByTripId(int id)
         {
-            return _rr.GetAll();
+            return _rr.GetAllByTripId(id);
         }
 
         internal Reservation Create(Reservation reservationData)
@@ -29,6 +29,27 @@ namespace WayFinder.Services
         internal string Delete(int id)
         {
             return _rr.Delete(id);
+        }
+
+        internal Reservation Edit(Reservation reservationData)
+        {
+            Reservation original = _rr.GetById(reservationData.Id);
+            original.Type = reservationData.Type ?? original.Type;
+            original.Name = reservationData.Name ?? original.Name;
+            original.ConfirmationNumber = reservationData.ConfirmationNumber ?? original.ConfirmationNumber;
+            original.Cost = reservationData.Cost;
+            original.Date = reservationData.Date;
+            original.Address = reservationData.Address ?? original.Address;
+            original.TripId = original.TripId;
+            _rr.Edit(original);
+            return original;
+
+
+        }
+
+        internal Reservation GetById(int id)
+        {
+            return _rr.GetById(id);
         }
     }
 }

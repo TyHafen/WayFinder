@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -26,6 +25,12 @@ namespace WayFinder.Repositories
 
         }
 
+        internal List<Reservation> GetAllByTripId(int id)
+        {
+            string sql = @"Select * FROM reservations WHERE tripId = @id";
+            return _db.Query<Reservation>(sql, new { id }).ToList();
+        }
+
         public string Delete(int id)
         {
             string sql = @"DELETE FROM reservations WHERE id = @id LIMIT 1";
@@ -39,7 +44,11 @@ namespace WayFinder.Repositories
 
         public void Edit(Reservation data)
         {
-            throw new NotImplementedException();
+            string sql = @"UPDATE reservations SET type = @Type, name = @Name, 
+            confirmationnumber = @ConfirmationNumber, 
+            address = @Address, date = @Date, cost = @Cost
+            WHERE id = @Id";
+            _db.Execute(sql, data);
         }
 
         public List<Reservation> GetAll()
@@ -50,7 +59,10 @@ namespace WayFinder.Repositories
 
         public Reservation GetById(int id)
         {
-            throw new NotImplementedException();
+            string sql = @"Select * FROM reservations WHERE id = @id";
+            return _db.Query<Reservation>(sql, new { id }).FirstOrDefault();
         }
+
+
     }
 }

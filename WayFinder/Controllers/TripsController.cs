@@ -10,9 +10,11 @@ namespace WayFinder.Controllers
     public class TripsController : ControllerBase
     {
         private readonly TripsService _ts;
-        public TripsController(TripsService ts)
+        private readonly ReservationsService _rs;
+        public TripsController(TripsService ts, ReservationsService rs)
         {
             _ts = ts;
+            _rs = rs;
         }
 
         [HttpGet]
@@ -88,7 +90,19 @@ namespace WayFinder.Controllers
                 return BadRequest(e.Message);
             }
         }
-
+        [HttpGet("{id}/reservations")]
+        public ActionResult<List<Reservation>> GetAllReservations(int id)
+        {
+            try
+            {
+                List<Reservation> reservations = _rs.GetAllByTripId(id);
+                return Ok(reservations);
+            }
+            catch (System.Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
 
 
